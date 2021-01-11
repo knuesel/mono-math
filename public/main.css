@@ -1,0 +1,123 @@
+body {
+  font-family: Verdana, sans-serif;
+  margin: 0;
+  color: #faf8f9;
+  background: #2a3d4b;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  margin: 0;
+}
+
+li {
+  margin: 8px 0;
+}
+
+a {
+  text-decoration: none;
+  color: #ff8543;
+}
+
+a.showurl::after {
+  content: attr(href);
+}
+
+span#current_font {
+  color: #96fafd;
+}
+
+p.footer {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 30px;
+}
+
+.sidenav {
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #1d2a31;
+  overflow-x: hidden;
+}
+
+.sidenav .content {
+  padding: 0px;
+}
+
+.sidenav h2 {
+  padding: 20 px;
+}
+
+.sidenav h3 {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.sidenav a {
+  padding: 10px;
+  font-size: 16px;
+  display: block;
+}
+
+.sidenav a.active {
+  background-color: #1d111c;
+  color: #e6e4e5;
+}
+
+.sidenav a:hover {
+  color: #faf8f9;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.main {
+  margin-left: 200px;
+  font-size: 16px;
+  overflow-x: auto;
+}
+
+.main .content {
+  max-width: 800px;
+  padding: 10px min(60px,5%);
+}
+
+@media screen and (max-width: 639px) {
+  .sidenav {
+    width: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .sidenav .content h3 {
+    display: inline-block;
+  }
+  .sidenav a {
+    display: inline-block;
+    padding: 15px 10px;
+  }
+  .main {
+    margin-left: 0;
+    margin-top: 50px;
+    font-size: 14px;
+  }
+  .sidenav h3 {
+    font-size: 16px;
+  }
+  .sidenav a {
+    font-size: 14px;
+  }
+  p.footer {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+}

@@ -3,6 +3,14 @@ uuid = "a8899c29-ddea-420e-9abb-ccc8e5f7116a"
 authors = ["Jeremie Knuesel <knuesel@gmail.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+EzXML = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+Mustache = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
+Pipe = "b98c9c47-44ae-5843-9183-064241ee97a0"
+
 [compat]
 julia = "1.5"
 
