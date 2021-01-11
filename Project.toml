@@ -10,6 +10,7 @@ EzXML = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 Mustache = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
 Pipe = "b98c9c47-44ae-5843-9183-064241ee97a0"
+Unicode = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
 [compat]
 julia = "1.5"
