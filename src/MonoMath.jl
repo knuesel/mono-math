@@ -7,8 +7,10 @@ using DelimitedFiles
 using Mustache
 using JSON3
 
-include("public/samples.jl")
+include("../public/samples.jl")
+include("../resources/fonts.jl")
 
+# Find which font is actually used to render a glyph (to find fallback font)
 function pango_view(font, text)
   withenv("FC_DEBUG"=>4) do
     name = @pipe `pango-view --font=$font -q -t $text` |>
@@ -19,6 +21,7 @@ function pango_view(font, text)
   end
 end
 
+# Get fc-match data as a Dict
 function fc_match(family)
     props = Dict{String,String}()
     for line in eachline(`fc-match -v $family`)
@@ -30,6 +33,7 @@ function fc_match(family)
     return props
 end
 
+# Convert an option=>value pair to an hb-view flag (without leading --)
 hbflag(option) = "$(replace(String(option[1]), '_'=>'-'))=$(option[2])" 
 
 function hbview(file, text, outfile; options...)
@@ -49,6 +53,7 @@ function default_shaper_list()
   end
 end
 
+# Get versions stored in the head and name tables of the given font file
 function font_versions(file)
   error_stream = IOBuffer()
   doc = parsexml(read(pipeline(`ttx -y 0 -i -t head -t name -o /dev/stdout $file`, stderr=error_stream)))
@@ -66,79 +71,52 @@ function font_versions(file)
   return (head=head_version, name=name_version)
 end
 
-function make_text_sample(;name, file, text, index, shaper_list, fontsize, format)
+# Directory and filename of a sample, relative to the public root
+function sample_path(; fontsize, os, shaper_list, format, fontname, index)
   shapers = join(shaper_list, '+')
-  outdir = "public/samples/$fontsize/$(Sys.KERNEL)/$shapers/$format/$name"
-  mkpath(outdir)
+  dir = "samples/$fontsize/$os/$shapers/$format/$fontname"
+  file = lpad(index, 2, '0') * ".$format"
+  return (dir, file)
+end
+
+function make_text_sample(; fontname, fontfile, text, index, shaper_list, fontsize, format)
+  (dir, file) = sample_path(; fontname, index, shaper_list, fontsize, format, os=Sys.KERNEL)
+  fulldir = joinpath("public", dir)
+  mkpath(fulldir)
 
   options = [
-             :line_space=>2
-             :margin=>fontsize÷2
-             :background=>"311d2f"
-             :foreground=>"e6e4e5"
-             :language=>"en"
-             :shapers=>join(shaper_list, ",")
-             :font_size=>fontsize
+             :line_space => 2
+             :margin => fontsize ÷ 2
+             :background => "311d2f"
+             :foreground => "e6e4e5"
+             :language => "en"
+             :shapers => join(shaper_list, ",")
+             :font_size => fontsize
             ];
 
   # Write image
-  index_str = lpad(index, 2, '0')
-  outfilename = "$(index_str).$format"
-  outfile = joinpath(outdir, outfilename)
+  outfile = joinpath(fulldir, file)
   println("Writing $outfile...")
-  hbview(file, text, outfile; options...)
+  hbview(fontfile, text, outfile; options...)
 end
 
-function make_font_samples(;name, file, options...)
+function make_font_samples(; fontname, fontfile, options...)
   for (index, text) in enumerate(text_samples)
-    make_text_sample(;name, file, text, index, options...)
+    make_text_sample(; fontname, fontfile, text, index, options...)
   end
-end
-
-function font_list()
-  fonts = [
-           "Cascadia Mono" => "fonts/Cascadia/ttf/CascadiaMono.ttf"
-           "Consolas" => "fonts/Consolas-Regular.ttf"
-           "DejaVu Sans Mono" => "fonts/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf"
-           "Envy Code R" => "fonts/Envy Code R PR7/Envy Code R.ttf"
-           "Everson Mono" => "fonts/evermono-7.0.0/Everson Mono.ttf"
-           "FiraCode" => "fonts/FiraCode/ttf/FiraCode-Regular.ttf"
-           # "FiraCode Retina" => "fonts/FiraCode/ttf/FiraCode-Retina.ttf"
-           "FreeMono" => "fonts/FreeMono.otf"
-           "Go Mono" => "fonts/Go-Mono.ttf"
-           "Hack" => "fonts/Hack/ttf/Hack-Regular.ttf"
-           "Inconsolata" => "fonts/Inconsolata/Inconsolata-Regular.otf"
-           "Iosevka" => "fonts/iosevka/iosevka-regular.ttf"
-           "JetBrains Mono" => "fonts/JetBrainsMono/ttf/JetBrainsMono-Regular.ttf"
-           "JuliaMono" => "fonts/JuliaMono/JuliaMono-Regular.ttf"
-           #"Menlo" => "fonts/Menlo.ttc"
-           #"Monaco" => "fonts/Monaco.dfont"
-           # "Cousine hinted" => "fonts/noto-fonts-20201206-phase3/hinted/ttf/Cousine/Cousine-Regular.ttf"
-           "Cousine" => "fonts/noto-fonts-20201206-phase3/unhinted/ttf/Cousine/Cousine-Regular.ttf"
-           # "Noto Sans Mono hinted" => "fonts/noto-fonts-20201206-phase3/hinted/ttf/NotoSansMono/NotoSansMono-Regular.ttf"
-           "Noto Sans Mono" => "fonts/noto-fonts-20201206-phase3/unhinted/ttf/NotoSansMono/NotoSansMono-Regular.ttf"
-           "Roboto Mono" => "fonts/RobotoMono/fonts/ttf/RobotoMono-Regular.ttf"
-           "SF Mono" => "fonts/sfmono/SFMono-Regular.otf"
-           "Ubuntu Mono" => "fonts/ubuntu-font-family-0.83/UbuntuMono-R.ttf"
-          ]
-  DataFrame(name=first.(fonts), path=last.(fonts))
 end
 
 function make_samples(; format=:svg, fontsize=14, shaper_list=default_shaper_list())
-  for (name, file) in eachrow(font_list())
-    make_font_samples(;name, file, format, fontsize, shaper_list)
+  for (name, file) in eachrow(fonts)
+    make_font_samples(; fontname=name, fontfile=file, format, fontsize, shaper_list)
   end
 end
 
-function sample_paths(; fontsize, os, shaper_list, format, fontname, n)
-  shapers = join(shaper_list, '+')
-  ["samples/$fontsize/$os/$shapers/$format/$fontname/$(lpad(i, 2, '0')).$format" for i in 1:n]
-end
-
 function make_html(; fontsize=14, os=Sys.KERNEL, shaper_list=default_shaper_list(), format=:svg, fontname="JuliaMono")
-  samples = sample_paths(; fontsize, os, shaper_list, format, fontname, n=length(text_samples))
-  tok = Mustache.load("index.html.template")
-  str = render(tok; fonts=font_list(), samples)
+  args = (; fontsize, os, shaper_list, format, fontname)
+  samples = [joinpath(sample_path(; args..., index)...) for index in 1:length(text_samples)]
+  tok = Mustache.load("resources/index.html.template")
+  str = render(tok; fonts, samples)
   write("public/index.html", str)
   return str
 end
@@ -146,6 +124,7 @@ end
 rounded_version(v::Number) = round(v, digits=4)
 rounded_version(v::AbstractString) = rounded_version(parse(Float64, v))
 
+# Convert maj.min.patch version to a single number, as used by Iosevka
 function parse_maj_min_patch(str)
   parts = split(str, '.')
   if length(parts) == 3
@@ -157,7 +136,7 @@ end
 function make_font_data()
   data = Dict{String,String}()
 
-  for (name, file) in eachrow(font_list())
+  for (name, file) in eachrow(fonts)
     versions = font_versions(file)
 
     # First version in semicolon-spearated list
@@ -196,4 +175,5 @@ function make_all()
   make_font_data()
   make_samples()
 end
+
 end
