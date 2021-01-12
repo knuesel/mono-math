@@ -12,7 +12,7 @@ julia --project
 Edit the font list in `src/fonts.jl`. By default this list refers to font files
 in `resources/fonts`. These files are not included in the repository.
 
-Edit the Unicode samples in `public/samples.jl`.
+Edit the Unicode samples in `src/samples.jl`.
 
 Then in Julia run for example:
 

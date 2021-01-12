@@ -1,0 +1,11 @@
+# From https://discourse.julialang.org/t/50416/31
+
+using Distributions, Statistics
+
+function mc(x, iterations, μ₀ = 0., τ₀ = 1e-7, α = 0.0001, β = 0.0001)
+    ∑x, n = sum(x), length(x)
+    μ, τ = ∑x/n, 1/var(x)
+    μₛ = rand(Normal((τ₀*μ₀ + τ*∑x)/(τ₀ + n*τ), 1/√(τ₀ + n*τ)), iterations)
+    τₛ = rand(Gamma(α + n/2, 1/(β + 0.5*sum((xᵢ-μ)^2 for xᵢ in x))), iterations)
+    samples = [(μ, τ); collect(zip(μₛ, τₛ))]
+end

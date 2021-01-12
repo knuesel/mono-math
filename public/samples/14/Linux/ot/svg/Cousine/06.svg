@@ -739,7 +739,6 @@
   <use xlink:href="#glyph0-7" x="360.0625" y="125.8125"/>
   <use xlink:href="#glyph0-7" x="368.46875" y="125.8125"/>
   <use xlink:href="#glyph0-41" x="376.875" y="125.8125"/>
-  <use xlink:href="#glyph0-7" x="385.28125" y="125.8125"/>
 </g>
 <g style="fill:rgb(90.196078%,89.411765%,89.803922%);fill-opacity:1;">
   <use xlink:href="#glyph0-1" x="7" y="161.53125"/>
@@ -1217,8 +1216,6 @@
   <use xlink:href="#glyph0-7" x="360.0625" y="268.6875"/>
   <use xlink:href="#glyph0-7" x="368.46875" y="268.6875"/>
   <use xlink:href="#glyph0-41" x="376.875" y="268.6875"/>
-  <use xlink:href="#glyph0-7" x="385.28125" y="268.6875"/>
-  <use xlink:href="#glyph0-7" x="393.6875" y="268.6875"/>
 </g>
 </g>
 </svg>

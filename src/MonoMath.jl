@@ -7,7 +7,7 @@ using DelimitedFiles
 using Mustache
 using JSON3
 
-include("../public/samples.jl")
+include("samples.jl")
 include("fonts.jl")
 
 # Find which font is actually used to render a glyph (to find fallback font)
@@ -71,15 +71,18 @@ function font_versions(file)
   return (head=head_version, name=name_version)
 end
 
+# Filename of a sample
+sample_file(index, format) = lpad(index, 2, '0') * ".$format"
+
 # Directory and filename of a sample, relative to the public root
 function sample_path(; fontsize, os, shaper_list, format, fontname, index)
   shapers = join(shaper_list, '+')
   dir = "samples/$fontsize/$os/$shapers/$format/$fontname"
-  file = lpad(index, 2, '0') * ".$format"
+  file = sample_file(index, format)
   return (dir, file)
 end
 
-function make_text_sample(; fontname, fontfile, text, index, shaper_list, fontsize, format)
+function make_sample(; fontname, fontfile, text, index, shaper_list, fontsize, format)
   (dir, file) = sample_path(; fontname, index, shaper_list, fontsize, format, os=Sys.KERNEL)
   fulldir = joinpath("public", dir)
   mkpath(fulldir)
@@ -101,12 +104,17 @@ function make_text_sample(; fontname, fontfile, text, index, shaper_list, fontsi
 end
 
 function make_font_samples(; fontname, fontfile, options...)
-  for (index, text) in enumerate(text_samples)
-    make_text_sample(; fontname, fontfile, text, index, options...)
+  for (index, (desc, text)) in enumerate(text_samples)
+    make_sample(; fontname, fontfile, text, index, options...)
   end
 end
 
 function make_samples(; format=:svg, fontsize=14, shaper_list=default_shaper_list())
+  # Make sample text files
+  for (index, (desc, text)) in enumerate(text_samples)
+    write(joinpath("public", "samples", sample_file(index, :txt)), text)
+  end
+
   for (name, file) in eachrow(fonts)
     make_font_samples(; fontname=name, fontfile=file, format, fontsize, shaper_list)
   end
@@ -114,7 +122,10 @@ end
 
 function make_html(; fontsize=14, os=Sys.KERNEL, shaper_list=default_shaper_list(), format=:svg, fontname="JuliaMono")
   args = (; fontsize, os, shaper_list, format, fontname)
-  samples = [joinpath(sample_path(; args..., index)...) for index in 1:length(text_samples)]
+  img = [joinpath(sample_path(; args..., index)...) for index in 1:length(text_samples)]
+  txt = [joinpath("samples", sample_file(index, :txt)) for index in 1:length(text_samples)]
+  desc = first.(text_samples)
+  samples = DataFrame(; img, txt, desc)
   tok = Mustache.load("resources/index.html.template")
   str = render(tok; fonts, samples)
   write("public/index.html", str)

@@ -47,10 +47,10 @@
 
         <h2>Samples</h2>
         <p>
-        Renderings were generated from <a href="samples.jl">these Unicode
-          samples</a> on Linux using HarfBuzz (<code>hb-view</code>) with the
-        <code>ot</code> shaper. The symbol lists are derived from <a
-          href="https://en.wikipedia.org/wiki/Mathematical_operators_and_symbols_in_Unicode">here</a>.
+        Renderings were generated on Linux using HarfBuzz
+        (<code>hb-view</code>) with the <code>ot</code> shaper. Click a sample
+        to see the plain (UTF-8) text. The symbol lists are derived from <a
+          href="https://en.wikipedia.org/wiki/Mathematical_operators_and_symbols_in_Unicode">Wikipedia</a>.
         </p>
         <p>
         The <code>\...</code> annotations correspond to Julia completion
@@ -62,7 +62,7 @@
           (version <span id="font_version"></span>)</span>.
         </p>
         {{#:samples}}
-        <img src="{{{.}}}"/>
+        <a href="{{{:txt}}}"><img title="{{{:desc}}}" alt="{{{:desc}}}" src="{{{:img}}}"/></a>
         {{/:samples}}
       </div>
       <p class="footer">

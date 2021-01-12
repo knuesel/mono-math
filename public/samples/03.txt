@@ -1,0 +1,27 @@
+# From https://github.com/zygmuntszpak/MultipleViewGeometry.jl
+
+function cost(c::CostFunction, entity::FundamentalMatrix, 𝛉::AbstractArray,
+              𝒞::Tuple{AbstractArray, Vararg{AbstractArray}},
+              𝒟::Tuple{AbstractArray, Vararg{AbstractArray}})
+    ℳ, ℳʹ = 𝒟
+    Λ₁, Λ₂ = 𝒞
+    Jₐₘₗ = 0.0
+    N = length(𝒟[1])
+    𝚲ₙ = @MMatrix zeros(4,4)
+    𝐞₁ = @SVector [1.0, 0.0, 0.0]
+    𝐞₂ = @SVector [0.0, 1.0, 0.0]
+    index = SVector(1,2)
+    @inbounds for n = 1:N
+        𝚲ₙ[1:2,1:2] .=  Λ₁[n][index,index]
+        𝚲ₙ[3:4,3:4] .=  Λ₂[n][index,index]
+        𝐦 = hom(ℳ[n])
+        𝐦ʹ= hom(ℳʹ[n])
+        𝐔ₙ = (𝐦 ⊗ 𝐦ʹ)
+        ∂ₓ𝐮ₙ =  [(𝐞₁ ⊗ 𝐦ʹ) (𝐞₂ ⊗ 𝐦ʹ) (𝐦 ⊗ 𝐞₁) (𝐦 ⊗ 𝐞₂)]
+        𝐁ₙ =  ∂ₓ𝐮ₙ * 𝚲ₙ * ∂ₓ𝐮ₙ'
+        𝚺ₙ = 𝛉' * 𝐁ₙ * 𝛉
+        𝚺ₙ⁻¹ = inv(𝚺ₙ)
+        Jₐₘₗ +=  𝛉' * 𝐔ₙ * 𝚺ₙ⁻¹ * 𝐔ₙ' * 𝛉
+    end
+    Jₐₘₗ
+end
