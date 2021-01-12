@@ -29,6 +29,8 @@ $(document).ready(function(){
 
     window.onhashchange = function() {
         var fontname = decodeURIComponent(window.location.hash).substring(1)
-        select(fontname)
+        if (font_data[fontname]) {
+            select(fontname)
+        }
     }
 });
