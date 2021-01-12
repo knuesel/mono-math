@@ -53,6 +53,12 @@ function default_shaper_list()
   end
 end
 
+# Get list of codepoints in a font
+function font_codepoints(file)
+  cmap = parsexml(read(pipeline(`ttx -y 0 -i -t cmap -o /dev/stdout $file`)))
+  return [parse(UInt32, m["code"]) for m in findall("/ttFont/cmap//map", cmap)]
+end
+
 # Get versions stored in the head and name tables of the given font file
 function font_versions(file)
   error_stream = IOBuffer()
