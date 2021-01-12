@@ -1,6 +1,6 @@
-font_dir = "resources/fonts"
+const font_dir = "resources/fonts"
 
-font_array = [
+const font_array = [
          "Cascadia Mono" => "Cascadia/ttf/CascadiaMono.ttf"
          "Consolas" => "Consolas-Regular.ttf"
          "DejaVu Sans Mono" => "dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf"
@@ -26,4 +26,4 @@ font_array = [
          "Ubuntu Mono" => "ubuntu-font-family-0.83/UbuntuMono-R.ttf"
         ]
 
-fonts = DataFrame(name=first.(font_array), path=joinpath.(font_dir, last.(font_array)))
+const fonts = DataFrame(name=first.(font_array), path=joinpath.(font_dir, last.(font_array)))

@@ -8,7 +8,7 @@ using Mustache
 using JSON3
 
 include("../public/samples.jl")
-include("../resources/fonts.jl")
+include("fonts.jl")
 
 # Find which font is actually used to render a glyph (to find fallback font)
 function pango_view(font, text)

@@ -1,4 +1,4 @@
-## Comparison of math symbols in monospace fonts.
+## Comparison of math symbols in monospace fonts
 
 The site files are in `public/`. The samples and some other files are generated
 with Julia. To recreate them, first install the dependencies by running the
@@ -9,7 +9,12 @@ julia --project
 ]instantiate
 ```
 
-Then run for example:
+Edit the font list in `src/fonts.jl`. By default this list refers to font files
+in `resources/fonts`. These files are not included in the repository.
+
+Edit the Unicode samples in `public/samples.jl`.
+
+Then in Julia run for example:
 
 ```
 using MonoMath
