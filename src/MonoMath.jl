@@ -172,7 +172,7 @@ function make_font_data()
       v = parse_maj_min_patch(name_value)
       isnothing(v) ? nothing : rounded_version(v)
     end
-    println("Versions: head $head_rounded, name $name_rounded")
+    println("Versions for $name: head $head_rounded, name $name_rounded")
 
     same = head_rounded == name_rounded
     if same || versions.head == "0.0"
