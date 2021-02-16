@@ -16,6 +16,7 @@ const font_array = [
          "Iosevka" => "iosevka/iosevka-regular.ttf"
          "JetBrains Mono" => "JetBrainsMono/ttf/JetBrainsMono-Regular.ttf"
          "JuliaMono" => "JuliaMono/JuliaMono-Regular.ttf"
+         "Liberation Mono" => "liberation-fonts-ttf-2.1.2/LiberationMono-Regular.ttf"
          "Mononoki" => "mononoki/webfont/mononoki-Regular.ttf"
          #"Menlo" => "Menlo.ttc"
          #"Monaco" => "Monaco.dfont"
