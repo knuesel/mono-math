@@ -15,6 +15,10 @@ const text_samples = [
 
    ' " ′ ″ ‴ ⁗ ‵ ‶ ‷
    => -> |> ∘ ⨟ ⋅ × ⊗ + ⊕ ≈ ∝ ~
+
+   ⌠  x⁴ - 5x       ⌠ ⌠ ⌠
+   ⎮ ───────── dx   ⎮⃘ ⎮⃙ ⎮⃚
+   ⌡  ∛(x-1)        ⌡ ⌡ ⌡
    """
 
    "Julia code for a Gibbs sampler" =>
