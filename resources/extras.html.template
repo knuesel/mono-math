@@ -22,39 +22,12 @@
       <div class="content">
         <h1>Math symbols in monospace fonts</h1>
         <p>
-        This page shows how Unicode math symbols are supported by various
-        monospace fonts.
+        Extra samples (see <a href="/">here</a> for the main page).
         </p>
-        <p>
-        Font comparators often show glyphs as rendered by the browser on the
-        user's platform, using other fonts as fallback for glyphs missing from
-        the selected font. This might well be what you want: text is shown as
-        it would actually look like on your computer (in the browser at least).
-        However the same text might look different on another computer, if
-        different fonts are used as fallback.
-        </p>
-        <p>
-        In contrast, this page shows samples rendered without fallback to other
-        fonts in cases of missing glyphs. What you see is what's actually
-        supported by each font.
-        </p>
-        <p>
-        Some other font comparators:
-        </p>
-        <p><a href="https://devfonts.gafi.dev/" class="showurl"></a></p>
-        <p><a href="https://www.programmingfonts.org/" class="showurl"></a></p>
-        <p><a href="https://coding-fonts.css-tricks.com/" class="showurl"></a></p>
-
-        <h2>Samples</h2>
         <p>
         Renderings were generated on Linux using HarfBuzz
         (<code>hb-view</code>) with the <code>ot</code> shaper. Click a sample
-        to see the plain (UTF-8) text. The symbol lists are derived from <a
-          href="https://en.wikipedia.org/wiki/Mathematical_operators_and_symbols_in_Unicode">Wikipedia</a>.
-        </p>
-        <p>
-        The <code>\...</code> annotations correspond to Julia completion
-        prefixes.
+        to see the plain (UTF-8) text.
         </p>
         <p>Use the left pane to change the font.</p>
         <p>

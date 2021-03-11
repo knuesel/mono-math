@@ -110,14 +110,14 @@ function make_sample(; fontname, fontfile, text, index, shaper_list, fontsize, f
 end
 
 function make_font_samples(; fontname, fontfile, options...)
-  for (index, (desc, text)) in enumerate(text_samples)
+  for (index, (desc, text)) in enumerate(all_samples)
     make_sample(; fontname, fontfile, text, index, options...)
   end
 end
 
 function make_samples(; format=:svg, fontsize=14, shaper_list=default_shaper_list())
   # Make sample text files
-  for (index, (desc, text)) in enumerate(text_samples)
+  for (index, (desc, text)) in enumerate(all_samples)
     write(joinpath("public", "samples", sample_file(index, :txt)), text)
   end
 
@@ -126,15 +126,16 @@ function make_samples(; format=:svg, fontsize=14, shaper_list=default_shaper_lis
   end
 end
 
-function make_html(; fontsize=14, os=Sys.KERNEL, shaper_list=default_shaper_list(), format=:svg, fontname="JuliaMono")
+function make_html(; sample_indices=eachindex(text_samples), fontsize=14, os=Sys.KERNEL,
+                     shaper_list=default_shaper_list(), format=:svg, fontname="JuliaMono", filename="index.html")
   args = (; fontsize, os, shaper_list, format, fontname)
-  img = [joinpath(sample_path(; args..., index)...) for index in 1:length(text_samples)]
-  txt = [joinpath("samples", sample_file(index, :txt)) for index in 1:length(text_samples)]
-  desc = first.(text_samples)
+  img = [joinpath(sample_path(; args..., index)...) for index in sample_indices]
+  txt = [joinpath("samples", sample_file(index, :txt)) for index in sample_indices]
+  desc = first.(all_samples[sample_indices])
   samples = DataFrame(; img, txt, desc)
-  tok = Mustache.load("resources/index.html.template")
+  tok = Mustache.load("resources/$filename.template")
   str = render(tok; fonts, samples)
-  write("public/index.html", str)
+  write("public/$filename", str)
   return str
 end
 
@@ -191,6 +192,9 @@ function make_all()
   make_html()
   make_font_data()
   make_samples()
+
+  extra_indices = length(text_samples) .+ eachindex(extra_samples)
+  make_html(sample_indices=extra_indices, filename="extras.html")
 end
 
 end
