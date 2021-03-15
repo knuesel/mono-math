@@ -25,6 +25,7 @@ const font_array = [
          "Noto Sans Mono" => "noto-fonts-20201206-phase3/unhinted/ttf/NotoSansMono/NotoSansMono-Regular.ttf"
          "Roboto Mono" => "RobotoMono/fonts/ttf/RobotoMono-Regular.ttf"
          "SF Mono" => "sfmono/SFMono-Regular.otf"
+         "Source Code Pro" => "SourceCodePro/SourceCodePro-Regular.ttf"
          "Ubuntu Mono" => "ubuntu-font-family-0.83/UbuntuMono-R.ttf"
         ]
 
