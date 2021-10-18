@@ -144,11 +144,12 @@ rounded_version(v::AbstractString) = rounded_version(parse(Float64, v))
 
 # Convert maj.min.patch version to a single number, as used by Iosevka
 function parse_maj_min_patch(str)
-  parts = split(str, '.')
-  if length(parts) == 3
-    return parse(Int, parts[1]) + parse(Int, parts[2])/100 + parse(Int, parts[3])/1000
-  end
-  return nothing
+    println("@@ parsing $str...")
+    result = match(r"^(\d+)\.(\d+)\.(\d+)(.*)$", str)
+    isnothing(result) && return nothing
+    maj, min, patch, suffix = result
+    isempty(suffix) || println("Version suffix ignored in $str")
+    return parse(Int, maj) + parse(Int, min)/100 + parse(Int, patch)/1000
 end
 
 function make_font_data()
