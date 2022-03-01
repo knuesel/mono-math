@@ -89,6 +89,10 @@ body {
   padding: 10px min(60px,5%);
 }
 
+.content a[href^="samples/"] {
+  display: block;
+}
+
 @media screen and (max-width: 639px) {
   .sidenav {
     width: auto;
