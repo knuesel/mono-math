@@ -144,7 +144,6 @@ rounded_version(v::AbstractString) = rounded_version(parse(Float64, v))
 
 # Convert maj.min.patch version to a single number, as used by Iosevka
 function parse_maj_min_patch(str)
-    println("@@ parsing $str...")
     result = match(r"^(\d+)\.(\d+)\.(\d+)(.*)$", str)
     isnothing(result) && return nothing
     maj, min, patch, suffix = result
