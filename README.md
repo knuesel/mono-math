@@ -11,6 +11,8 @@ julia --project
 ]instantiate
 ```
 
+Also make sure you have the command-line tools `fc-match`, `pango-view`, `hb-view` and `ttx` installed.
+
 Edit the font list in `src/fonts.jl`. By default this list refers to font files
 in `resources/fonts`. These files are not included in the repository.
 
