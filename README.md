@@ -18,9 +18,8 @@ in `resources/fonts`. These files are not included in the repository.
 
 Edit the Unicode samples in `src/samples.jl`.
 
-Then in Julia run for example:
+Then run
 
 ```
-using MonoMath
-MonoMath.make_all()
+julia --project main.jl
 ```
