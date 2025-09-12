@@ -5,6 +5,7 @@ font_data = {
     "FiraCode": "6.002",
     "JuliaMono": "0.061",
     "Go Mono": "2.010",
+    "Monaspace Neon": "1.301 (Monaspace Neon) (head table: 1.301)",
     "Mononoki": "1.006",
     "SF Mono": "13.1d0e1",
     "Inconsolata": "3.000",
