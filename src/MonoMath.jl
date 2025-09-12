@@ -185,7 +185,10 @@ function make_font_data()
     data[name] = summary
   end
 
-  write("public/font-data.js", "font_data = ", JSON3.write(data))
+  open("public/font-data.js", "w") do io
+    print(io, "font_data = ")
+    JSON3.pretty(io, data)
+  end
 end
 
 function make_all()
